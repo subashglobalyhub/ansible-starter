@@ -7,6 +7,7 @@
     PUBLIC_IP=$(curl ifconfig.me)
     echo "PUBLIC_IP = ${PUBLIC_IP}"
     ls -al
+    printf "dynamic-dir => {{ dynamic_dir }}\n"
     printf "{{ blue_color }}task completed successfully{{ color_reset }}\n" > test-remote/subash-ansible/task_result.txt
     printf "{{ blue_color }}task completed successfully{{ color_reset }}\n"
   args:
