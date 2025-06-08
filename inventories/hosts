@@ -1,0 +1,2 @@
+[local_servers]
+192.168.253.128 ansible_user=subash

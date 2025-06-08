@@ -1,0 +1,11 @@
+- hosts:
+    - local_servers
+  #become: true
+  remote_user: subash
+  connection: ssh
+  vars:
+    blue_color: "\\e[34m"  # ANSI code for blue text, escaped for shell
+    color_reset: "\\e[0m"  # ANSI code to reset color, escaped for shell
+  tasks:
+    - import_tasks: tasks/dir-create.yml
+

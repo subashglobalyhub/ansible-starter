@@ -1,0 +1,44 @@
+# tasks/dir-create.yml
+# Task to create a directory structure and perform file operations
+- name: Task1 => Create directory in /home/subash/testing
+  ansible.builtin.shell: |
+    mkdir -p test-remote/subash-ansible
+    touch test-remote/subash-ansible/test.txt
+    PUBLIC_IP=$(curl ifconfig.me)
+    echo "PUBLIC_IP = ${PUBLIC_IP}"
+    ls -al
+    printf "{{ blue_color }}task completed successfully{{ color_reset }}\n" > test-remote/subash-ansible/task_result.txt
+    printf "{{ blue_color }}task completed successfully{{ color_reset }}\n"
+  args:
+    executable: /bin/bash
+    chdir: /home/subash/testing  # Set working directory
+  register: task_result
+
+- name: T1 Display => Display directory task result
+  ansible.builtin.debug:
+    var: task_result.stdout_lines
+
+# Task to run commands in a loop, including apt update
+- name: Task2 => Execute shell commands in a loop
+  ansible.builtin.shell: "{{ item }}"
+  loop:
+    - printf "{{ blue_color }}checking Public IP {{ color_reset }}\n"
+    - PUBLIC_IP=$(curl ifconfig.me)
+    - printf "{{ blue_color }}displaying public IP {{ color_reset }}\n"
+    - printf "{{ blue_color }}Public IP {{ color_reset }} => ${PUBLIC_IP} \n"
+    - printf "{{ blue_color }}updating apt{{ color_reset }}\n"
+    - sudo apt install tree
+    - printf "{{ blue_color }}downloading ubuntu in progress ....{{ color_reset }}\n"
+    - printf "{{ blue_color }}updating apt 2{{ color_reset }}\n"
+    - printf "{{ blue_color }}updating apt 3{{ color_reset }}\n"
+  args:
+    executable: /bin/bash
+    chdir: /home/subash/testing  # Set working directory
+  register: task2_result
+
+- name: Task2 => Display loop task results
+  ansible.builtin.debug:
+    msg: "{{ item.stdout | default('') }}"
+  loop: "{{ task2_result.results }}"
+  loop_control:
+    label: "{{ item.item }}"  # Show the command in output for clarity

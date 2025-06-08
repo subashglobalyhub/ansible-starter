@@ -1,0 +1,16 @@
+---
+- hosts: 
+    - local-servers
+  become: true
+  connection: ssh
+  tasks:
+    - import_tasks: tasks/supervisord-enable.yml
+    - name: Restart supervisord service
+      import_tasks: handlers/supervisord-restart.yml
+
+- hosts:
+    - local-servers
+  become: true
+  connection: ssh
+  tasks:
+    - import_tasks: tasks/dir-create.yml

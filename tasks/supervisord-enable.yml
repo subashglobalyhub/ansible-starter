@@ -1,0 +1,20 @@
+- name: Check if supervisord is installed
+  become: true
+  stat:
+    path: /usr/bin/supervisord
+  register: supervisord_stat #result is stored in this supervisord_stat variable 
+
+- name: Check if supervisord service is running
+  become: true
+  command: systemctl is-active supervisord
+  register: supervisord_status
+  changed_when: false
+  failed_when: false
+
+- name: Ensure supervisord service is enabled and started
+  become: true
+  service:
+    name: supervisord
+    state: started
+    enabled: yes
+  when: supervisord_stat.stat.exists and supervisord_status.rc != 3  # Check if the service is not inactive
